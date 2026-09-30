@@ -12,6 +12,7 @@ import (
 type IndexItem struct {
 	ID          string `json:"id"`
 	Version     string `json:"version"`
+	Tier        string `json:"tier,omitempty"`
 	License     string `json:"license,omitempty"`
 	Hash        string `json:"hash"`
 	ManifestURL string `json:"manifest_url"`
@@ -37,6 +38,11 @@ func main() {
 	}
 
 	for _, b := range manifest.Bundles {
+		if b.Tier == "community" {
+			// Community bundles are decentralized and hosted on the author's own GitHub repository.
+			continue
+		}
+
 		safeID := strings.ReplaceAll(b.ID, "/", "-")
 		tag := fmt.Sprintf("%s-v%s", safeID, b.Version)
 		fileName := fmt.Sprintf("%s-%s.tgz", filepath.Base(b.ID), b.Version)
