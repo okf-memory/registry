@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="168" height="20" viewBox="0 0 168 20" role="img" aria-label="OKF Memory: v0.2 bundle">
+  <title>OKF Memory: v0.2 bundle</title>
+  <linearGradient id="glow" x2="0" y2="100%">
+    <stop offset="0" stop-color="#bbb" stop-opacity=".1"/>
+    <stop offset="1" stop-opacity=".1"/>
+  </linearGradient>
+  <clipPath id="clip">
+    <rect width="168" height="20" rx="4" fill="#fff"/>
+  </clipPath>
+  <g clip-path="url(#clip)">
+    <rect width="90" height="20" fill="#0f121d"/>
+    <rect x="90" width="78" height="20" fill="#8b5cf6"/>
+    <rect width="168" height="20" fill="url(#glow)"/>
+  </g>
+  <g fill="#fff" text-anchor="middle" font-family="'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" text-rendering="geometricPrecision" font-size="110">
+    <text aria-hidden="true" x="460" y="140" fill="#010101" fill-opacity=".3" transform="scale(.1)" textLength="760">🧠 OKF Memory</text>
+    <text x="460" y="130" transform="scale(.1)" fill="#f8fafc" textLength="760">🧠 OKF Memory</text>
+    <text aria-hidden="true" x="1280" y="140" fill="#010101" fill-opacity=".3" transform="scale(.1)" textLength="640">v0.2 bundle</text>
+    <text x="1280" y="130" transform="scale(.1)" fill="#ffffff" font-weight="bold" textLength="640">v0.2 bundle</text>
+  </g>
+</svg>

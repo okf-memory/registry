@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OKF Memory Registry — Curated Knowledge Bundles for AI Agents</title>
+  <meta name="description" content="Canonical public registry for Open Knowledge Format (OKF) v0.2 agent memory bundles. Verifiable, bit-identical seed memories for AI coding agents.">
+  <link rel="canonical" href="https://registry.okf-memory.dev/">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧠</text></svg>">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a href="https://okf-memory.dev" class="brand-logo">
+        <div class="logo-icon">🧠</div>
+        <span>OKF Agent Memory</span>
+      </a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="https://okf-memory.dev">Home</a></li>
+          <li><a href="https://okf-memory.dev/#architecture">Architecture</a></li>
+          <li><a href="https://okf-memory.dev/#quickstart">Docs</a></li>
+          <li><a href="https://github.com/okf-memory/registry" target="_blank" rel="noopener">GitHub</a></li>
+          <li><a href="#publish-bundle" class="nav-btn">🚀 How to Publish</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <div class="hero-badge">
+          <span class="pulse-dot"></span>
+          <span>Open Knowledge Format v0.2 • Canonical Registry</span>
+        </div>
+        <h1>Curated Agent Memory Bundles</h1>
+        <p>
+          Verifiable, bit-identical knowledge bundles for AI coding agents. Vendor authoritative decisions, token lifecycle invariants, and framework rules into your local project memory.
+        </p>
+
+        <div class="search-container">
+          <span class="search-icon">🔍</span>
+          <input type="text" id="bundle-search" class="search-input" placeholder="Search bundles by name, keyword, or decision (e.g. jwt, nextjs, caching)..." autocomplete="off">
+        </div>
+
+        <div class="filter-pills" id="filter-pills">
+          <button class="filter-pill active" data-filter="all">All <span class="pill-count">{{len .Bundles}}</span></button>
+          <button class="filter-pill" data-filter="official">★ Official Core <span class="pill-count">{{.OfficialCount}}</span></button>
+          <button class="filter-pill" data-filter="community">🌐 Community <span class="pill-count">{{.CommunityCount}}</span></button>
+        </div>
+      </div>
+    </section>
+
+    <section class="bundles-section">
+      <div class="container">
+        <div class="bundles-grid" id="bundles-grid">
+          {{range .Bundles}}
+          <div class="bundle-card" data-id="{{.ID}}" data-title="{{.Title}}" data-desc="{{.Description}}" data-tier="{{.Tier}}" data-status="{{.Status}}">
+            <div class="card-header">
+              <div class="header-left">
+                <span class="bundle-id">{{.ID}}</span>
+                {{if eq .Tier "official"}}
+                <span class="badge-official" title="Official Core Seed curated by OKF team">★ Official Core</span>
+                {{else}}
+                <span class="badge-community" title="Decentralized Community Bundle">🌐 Community</span>
+                {{end}}
+                {{if .IsStale}}
+                <span class="badge-stale" title="This bundle contains unreviewed concepts past their stale_after review date">⚠️ Stale</span>
+                {{end}}
+                {{if eq .Status "deprecated"}}
+                <span class="badge-deprecated" title="This bundle is marked as deprecated">⛔ Deprecated</span>
+                {{else if eq .Status "draft"}}
+                <span class="badge-draft" title="This bundle is in draft status">📝 Draft</span>
+                {{end}}
+              </div>
+              <div class="header-badges">
+                {{if .License}}
+                <span class="badge-license" title="License: {{.License}}">{{.License}}</span>
+                {{end}}
+                <span class="badge-version">v{{.Version}}</span>
+              </div>
+            </div>
+            <div class="bundle-title">{{.Title}}</div>
+            <p class="bundle-desc">{{.Description}}</p>
+            <div class="install-box">
+              <span>okf pull {{.ID}}</span>
+              <button class="copy-btn" data-copy="okf pull {{.ID}}" title="Copy command">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+              </button>
+            </div>
+            <div class="card-footer">
+              {{if eq .Tier "official"}}
+              <a href="bundles/{{.ID}}.json" target="_blank">manifest.json</a>
+              <a href="{{.DownloadURL}}">download .tgz</a>
+              {{else}}
+              <a href="{{.DownloadURL}}" target="_blank" rel="noopener">github repository ↗</a>
+              <span class="community-tag" style="color: var(--accent-cyan); font-family: var(--font-mono); font-size: 0.72rem;">decentralized</span>
+              {{end}}
+            </div>
+          </div>
+          {{end}}
+        </div>
+
+        <div class="no-results" id="no-results" style="display: none;">
+          <div class="no-results-icon">🔍</div>
+          <h3>No matching bundles found</h3>
+          <p>No bundles match your search query and filter. You can publish your own bundle to GitHub with topic <code>okf-memory-bundle</code>!</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="submit-section" id="publish-bundle">
+      <div class="container">
+        <div class="submit-card">
+          <div class="submit-header">
+            <h2>Publish & Share Your Own Bundles</h2>
+            <p>OKF is 100% decentralized. Host your bundle on your own GitHub repository, tag it with <code>okf-memory-bundle</code>, and any AI agent or developer can vendor it immediately without permission or Pull Requests.</p>
+          </div>
+          <div class="steps-grid">
+            <div class="step-card">
+              <span class="step-num">01</span>
+              <h3>Create Any Git Repository</h3>
+              <p>Initialize a public repository on GitHub (e.g. <code>github.com/your-org/my-rules</code>) with your domain decisions.</p>
+            </div>
+            <div class="step-card">
+              <span class="step-num">02</span>
+              <h3>Author OKF Invariants</h3>
+              <p>Add <code>index.md</code>, <code>log.md</code>, and Markdown decisions with <code>okf_version: "0.2"</code> and SemVer <code>bundle_version</code>.</p>
+            </div>
+            <div class="step-card">
+              <span class="step-num">03</span>
+              <h3>Validate Strict</h3>
+              <p>Run <code>okf validate . --strict</code> to guarantee zero errors, valid ISO dates, and fully connected graphs.</p>
+            </div>
+            <div class="step-card">
+              <span class="step-num">04</span>
+              <h3>Tag & Get Indexed</h3>
+              <p>Add GitHub topic <code>okf-memory-bundle</code> in repo settings and tag a release (<code>git tag v1.0.0</code>). Your bundle is instantly discoverable and pullable:</p>
+            </div>
+          </div>
+          <div class="install-box" style="max-width: 580px; margin: 0 auto 16px;">
+            <span>okf pull github.com/your-org/my-rules@v1.0.0</span>
+            <button class="copy-btn" data-copy="okf pull github.com/your-org/my-rules@v1.0.0" title="Copy command">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+            </button>
+          </div>
+
+          <div class="badge-embed-box" style="max-width: 580px; margin: 0 auto 24px; background: rgba(0,0,0,0.3); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); padding: 16px; text-align: left;">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; flex-wrap: wrap; gap: 8px;">
+              <span style="font-size: 0.85rem; color: var(--text-secondary); font-weight: 600;">Official Repository Badge:</span>
+              <img src="badge/v0.2.svg" alt="OKF Memory Bundle Badge" height="20">
+            </div>
+            <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 10px;">
+              Embed the canonical badge in your repository's <code>README.md</code> to link your bundle directly to the registry:
+            </p>
+            <div class="install-box" style="margin-bottom: 0;">
+              <span>[![OKF Memory Bundle](https://registry.okf-memory.dev/badge/v0.2.svg)](https://registry.okf-memory.dev)</span>
+              <button class="copy-btn" data-copy="[![OKF Memory Bundle](https://registry.okf-memory.dev/badge/v0.2.svg)](https://registry.okf-memory.dev)" title="Copy badge markdown">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+              </button>
+            </div>
+          </div>
+
+          <p style="text-align: center; color: var(--text-muted); font-size: 0.85rem; margin-bottom: 28px;">
+            🏷️ Tagging with <code>okf-memory-bundle</code> allows decentralized ecosystem discovery across GitHub.
+          </p>
+          <div class="submit-action">
+            <a href="https://github.com/topics/okf-memory-bundle" target="_blank" rel="noopener" class="btn-secondary">Explore #okf-memory-bundle on GitHub ↗</a>
+            <a href="https://github.com/okf-memory/registry#governance--official-seeds" target="_blank" rel="noopener" class="btn-primary">Propose an Official Core Seed (RFC) →</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>
+        Powered by <a href="https://okf-memory.dev">OKF Agent Memory</a> • Open Knowledge Format v0.2 Specification • Fully static & verifiable.
+      </p>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
