@@ -1,1 +1,17 @@
-null
+[
+  {
+    "id": "github.com/sknr/okf-bundle-example",
+    "owner": "sknr",
+    "repo": "okf-bundle-example",
+    "version": "1.0.0",
+    "okf_version": "0.2",
+    "license": "MIT",
+    "status": "stable",
+    "tier": "community",
+    "title": "Feline Incident Response \u0026 Autonomous Smart-Home Memory Bundle",
+    "description": "Canonical operational memory, architectural decisions, and emergency runbooks for managing feline-induced smart-home chaos.",
+    "repo_url": "https://github.com/sknr/okf-bundle-example",
+    "concept_count": 7,
+    "updated_at": "2026-09-30T20:15:55Z"
+  }
+]
