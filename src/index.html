@@ -98,10 +98,13 @@
             <div class="card-footer">
               <div class="footer-links">
                 {{if eq .Tier "official"}}
-                <a href="bundles/{{.ID}}.json" target="_blank">manifest.json</a>
-                <a href="{{.DownloadURL}}">download .tgz</a>
+                <a href="bundles/{{.ID}}.json" target="_blank" class="footer-manifest">manifest.json</a>
+                <a href="{{.DownloadURL}}" class="btn-download" title="Download bundle archive (.tgz)">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                  <span>Download .tgz</span>
+                </a>
                 {{else}}
-                <a href="{{.DownloadURL}}" target="_blank" rel="noopener">github repo ↗</a>
+                <a href="{{.DownloadURL}}" target="_blank" rel="noopener" class="footer-repo">github repo ↗</a>
                 <span class="community-tag" style="color: var(--accent-cyan); font-family: var(--font-mono); font-size: 0.72rem;">decentralized</span>
                 {{end}}
               </div>

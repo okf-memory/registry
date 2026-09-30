@@ -583,6 +583,35 @@ body {
   color: #ede9fe;
 }
 
+.btn-download {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(139, 92, 246, 0.12);
+  border: 1px solid rgba(139, 92, 246, 0.35);
+  color: #c4b5fd !important;
+  padding: 3px 8px;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.btn-download:hover {
+  background: rgba(139, 92, 246, 0.25);
+  border-color: var(--accent-purple);
+  color: #fff !important;
+  transform: translateY(-1px);
+  box-shadow: 0 0 10px rgba(139, 92, 246, 0.3);
+}
+
+.btn-download svg {
+  stroke-width: 2.2;
+}
+
 @keyframes cardPulseGlow {
   0% {
     box-shadow: 0 0 0 0 rgba(139, 92, 246, 0.7);
@@ -758,34 +787,76 @@ body {
 /* Responsive / Mobile-First Optimizations */
 @media (max-width: 860px) {
   .nav-wrap {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 8px 12px;
     height: auto;
-    padding: 16px 0;
-    flex-direction: column;
-    gap: 16px;
+    padding: 10px 0 8px;
+  }
+
+  .brand-logo {
+    font-size: 1.15rem;
+    gap: 8px;
+  }
+
+  .logo-icon {
+    width: 32px;
+    height: 32px;
+    font-size: 1.05rem;
+  }
+
+  .nav-btn {
+    padding: 6px 14px;
+    font-size: 0.8rem;
+    white-space: nowrap;
   }
 
   .nav-links {
-    flex-wrap: wrap;
+    grid-column: 1 / -1;
     justify-content: center;
-    gap: 16px;
+    gap: 18px;
+    padding-top: 6px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .nav-links a {
+    font-size: 0.82rem;
+  }
+
+  .hero {
+    padding: 36px 0 28px;
+  }
+
+  .hero-badge {
+    margin-bottom: 14px;
+    font-size: 0.8rem;
+    padding: 4px 12px;
   }
 
   .hero h1 {
     font-size: 2.15rem;
+    margin-bottom: 14px;
   }
 
   .hero p {
-    font-size: 1.05rem;
+    font-size: 1rem;
     padding: 0 8px;
+    margin-bottom: 24px;
   }
 
   .filter-pills {
-    justify-content: flex-start;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 18px auto 0;
+    width: max-content;
+    max-width: 100%;
     overflow-x: auto;
-    padding: 4px 8px 12px;
+    flex-wrap: nowrap;
+    padding: 4px 12px 10px;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
-    max-width: 100%;
   }
 
   .filter-pills::-webkit-scrollbar {
@@ -793,8 +864,16 @@ body {
   }
 
   .filter-pill {
+    padding: 6px 14px;
+    font-size: 0.8rem;
+    gap: 6px;
     white-space: nowrap;
     flex-shrink: 0;
+  }
+
+  .pill-count {
+    font-size: 0.7rem;
+    padding: 1px 6px;
   }
 
   .bundles-grid {
@@ -816,12 +895,51 @@ body {
     padding: 0 16px;
   }
 
+  .brand-logo {
+    font-size: 1.05rem;
+  }
+
+  .brand-logo span:last-child {
+    letter-spacing: -0.03em;
+  }
+
+  .nav-btn {
+    padding: 5px 10px;
+    font-size: 0.75rem;
+  }
+
+  .nav-links {
+    gap: 12px;
+  }
+
+  .nav-links a {
+    font-size: 0.78rem;
+  }
+
+  .hero {
+    padding: 26px 0 20px;
+  }
+
   .hero h1 {
     font-size: 1.85rem;
+    margin-bottom: 12px;
   }
 
   .hero p {
-    font-size: 0.95rem;
+    font-size: 0.9rem;
+    margin-bottom: 20px;
+  }
+
+  .filter-pills {
+    margin-top: 14px;
+    gap: 6px;
+    padding: 2px 8px 8px;
+  }
+
+  .filter-pill {
+    padding: 5px 10px;
+    font-size: 0.75rem;
+    gap: 5px;
   }
 
   .search-input {
