@@ -541,6 +541,14 @@ body {
   font-size: 0.75rem;
   color: var(--text-muted);
   font-family: var(--font-mono);
+  gap: 8px;
+}
+
+.footer-links {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
 }
 
 .card-footer a {
@@ -551,6 +559,47 @@ body {
 
 .card-footer a:hover {
   color: var(--accent-cyan);
+}
+
+.badge-copy-btn {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: 3px 8px;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+}
+
+.badge-copy-btn:hover {
+  background: rgba(139, 92, 246, 0.2);
+  border-color: rgba(139, 92, 246, 0.45);
+  color: #ede9fe;
+}
+
+@keyframes cardPulseGlow {
+  0% {
+    box-shadow: 0 0 0 0 rgba(139, 92, 246, 0.7);
+    border-color: rgba(139, 92, 246, 1);
+  }
+  50% {
+    box-shadow: 0 0 25px 4px rgba(139, 92, 246, 0.5);
+    border-color: var(--accent-cyan);
+  }
+  100% {
+    box-shadow: 0 12px 30px -10px rgba(0, 0, 0, 0.6);
+    border-color: var(--border-highlight);
+  }
+}
+
+.card-highlight {
+  animation: cardPulseGlow 2s ease-out forwards;
 }
 
 /* Submit Section */

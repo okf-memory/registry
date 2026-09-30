@@ -33,7 +33,14 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   if (searchInput) {
-    searchInput.addEventListener('input', applyFilters);
+    searchInput.addEventListener('input', () => {
+      applyFilters();
+      const query = searchInput.value.trim();
+      const newUrl = query
+        ? `${window.location.pathname}?q=${encodeURIComponent(query)}`
+        : window.location.pathname;
+      window.history.replaceState({}, '', newUrl);
+    });
   }
 
   filterPills.forEach((pill) => {
@@ -45,7 +52,29 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Copy to clipboard handler
+  // URL Query Parameter Auto-Search (?q=... or ?search=...)
+  const urlParams = new URLSearchParams(window.location.search);
+  const initialQuery = urlParams.get('q') || urlParams.get('search');
+  if (initialQuery && searchInput) {
+    searchInput.value = initialQuery;
+    activeTier = 'all';
+    filterPills.forEach((p) => {
+      p.classList.toggle('active', p.getAttribute('data-filter') === 'all');
+    });
+    applyFilters();
+
+    // Smooth scroll and pulse highlight on first matching card
+    setTimeout(() => {
+      const match = Array.from(bundleCards).find((c) => c.style.display !== 'none');
+      if (match) {
+        match.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        match.classList.add('card-highlight');
+        setTimeout(() => match.classList.remove('card-highlight'), 2200);
+      }
+    }, 150);
+  }
+
+  // Copy install command to clipboard handler
   document.querySelectorAll('.copy-btn').forEach((btn) => {
     btn.addEventListener('click', async () => {
       const text = btn.getAttribute('data-copy');
@@ -59,6 +88,24 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 1800);
       } catch (err) {
         console.error('Failed to copy', err);
+      }
+    });
+  });
+
+  // Copy Badge markdown handler
+  document.querySelectorAll('.badge-copy-btn').forEach((btn) => {
+    btn.addEventListener('click', async () => {
+      const text = btn.getAttribute('data-badge');
+      if (!text) return;
+      try {
+        await navigator.clipboard.writeText(text);
+        const originalHtml = btn.innerHTML;
+        btn.innerHTML = `<span style="color: #10b981;">✓ Copied!</span>`;
+        setTimeout(() => {
+          btn.innerHTML = originalHtml;
+        }, 1800);
+      } catch (err) {
+        console.error('Failed to copy badge', err);
       }
     });
   });

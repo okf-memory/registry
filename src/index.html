@@ -96,13 +96,18 @@
               </button>
             </div>
             <div class="card-footer">
-              {{if eq .Tier "official"}}
-              <a href="bundles/{{.ID}}.json" target="_blank">manifest.json</a>
-              <a href="{{.DownloadURL}}">download .tgz</a>
-              {{else}}
-              <a href="{{.DownloadURL}}" target="_blank" rel="noopener">github repository ↗</a>
-              <span class="community-tag" style="color: var(--accent-cyan); font-family: var(--font-mono); font-size: 0.72rem;">decentralized</span>
-              {{end}}
+              <div class="footer-links">
+                {{if eq .Tier "official"}}
+                <a href="bundles/{{.ID}}.json" target="_blank">manifest.json</a>
+                <a href="{{.DownloadURL}}">download .tgz</a>
+                {{else}}
+                <a href="{{.DownloadURL}}" target="_blank" rel="noopener">github repo ↗</a>
+                <span class="community-tag" style="color: var(--accent-cyan); font-family: var(--font-mono); font-size: 0.72rem;">decentralized</span>
+                {{end}}
+              </div>
+              <button class="badge-copy-btn" data-badge="[![OKF Memory: v0.2 bundle](https://registry.okf-memory.dev/badge/v0.2.svg)](https://registry.okf-memory.dev/?q={{.ID}})" title="Copy Badge Markdown for README.md">
+                <span>🏷️ Badge</span>
+              </button>
             </div>
           </div>
           {{end}}
