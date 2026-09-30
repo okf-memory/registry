@@ -31,6 +31,7 @@ jobs:
         uses: actions/setup-go@v5
         with:
           go-version: '1.22'
+          cache: false
 
       - name: Install OKF CLI
         run: go install github.com/okf-memory/okf-agent-memory/cmd/okf@latest
