@@ -319,7 +319,53 @@ func downloadAndValidateBundle(client *http.Client, token string, repo GitHubRep
 }
 
 func extractTarGz(r io.Reader, destDir string) error {
-	gzr, err := gzip.NewReader(r)
+	data, err := io.ReadAll(r)
+	if err != nil {
+		return err
+	}
+
+	grPre, err := gzip.NewReader(bytes.NewReader(data))
+	if err != nil {
+		return err
+	}
+	defer func() {
+		_ = grPre.Close()
+	}()
+
+	hasKnowledgeDir := false
+	rootWrapper := ""
+	firstRootChecked := false
+
+	trPre := tar.NewReader(grPre)
+	for {
+		hdr, err := trPre.Next()
+		if err == io.EOF {
+			break
+		}
+		if err != nil {
+			return err
+		}
+		cleanName := filepath.ToSlash(filepath.Clean(hdr.Name))
+		if cleanName == "." || cleanName == ".." || strings.HasPrefix(cleanName, "../") {
+			continue
+		}
+
+		parts := strings.Split(cleanName, "/")
+		if !firstRootChecked {
+			if len(parts) > 1 || hdr.Typeflag == tar.TypeDir {
+				rootWrapper = parts[0]
+			}
+			firstRootChecked = true
+		} else if rootWrapper != "" && parts[0] != rootWrapper {
+			rootWrapper = ""
+		}
+
+		if cleanName == "knowledge/index.md" || strings.HasSuffix(cleanName, "/knowledge/index.md") {
+			hasKnowledgeDir = true
+		}
+	}
+
+	gzr, err := gzip.NewReader(bytes.NewReader(data))
 	if err != nil {
 		return err
 	}
@@ -337,16 +383,42 @@ func extractTarGz(r io.Reader, destDir string) error {
 			return err
 		}
 
-		parts := strings.Split(filepath.ToSlash(hdr.Name), "/")
-		if len(parts) <= 1 {
-			continue
-		}
-		relPath := strings.Join(parts[1:], "/")
-		if relPath == "" {
+		cleanName := filepath.ToSlash(filepath.Clean(hdr.Name))
+		if cleanName == "." || cleanName == ".." || strings.HasPrefix(cleanName, "../") {
 			continue
 		}
 
-		target := filepath.Join(destDir, relPath)
+		var relDest string
+		if hasKnowledgeDir {
+			idx := strings.Index(cleanName, "/knowledge/")
+			if idx != -1 {
+				relDest = cleanName[idx+len("/knowledge/"):]
+			} else if strings.HasPrefix(cleanName, "knowledge/") {
+				relDest = cleanName[len("knowledge/"):]
+			} else {
+				continue
+			}
+		} else {
+			if rootWrapper != "" {
+				if cleanName == rootWrapper {
+					continue
+				}
+				if strings.HasPrefix(cleanName, rootWrapper+"/") {
+					relDest = cleanName[len(rootWrapper)+1:]
+				} else {
+					relDest = cleanName
+				}
+			} else {
+				relDest = cleanName
+			}
+		}
+
+		relDest = filepath.Clean(relDest)
+		if relDest == "" || relDest == "." || relDest == ".." || strings.HasPrefix(relDest, "..") || filepath.IsAbs(relDest) {
+			continue
+		}
+
+		target := filepath.Join(destDir, filepath.FromSlash(relDest))
 		switch hdr.Typeflag {
 		case tar.TypeDir:
 			if err := os.MkdirAll(target, 0o755); err != nil {
