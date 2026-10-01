@@ -47,6 +47,56 @@ OKF is designed to be **100% permissionless and decentralized**:
 
 ---
 
+## Consuming Vendor Bundles & Multi-Scope Memory
+
+When you install an external bundle with `okf pull`, it is unpacked into `.okf/vendor/<bundle-id>/` and recorded in `okf.lock`:
+
+```mermaid
+flowchart TD
+    Pull["okf pull jwt<br/>(or okf pull github.com/owner/repo@v1.0.0)"] --> Vendor[".okf/vendor/jwt/"]
+    Pull --> Lock["okf.lock (Pinned Version & SHA-256)"]
+    Lock --> Restore["okf pull (no args)<br/>(npm-style alias for okf restore)"]
+    Vendor --> Ref["Cross-Scope Linking<br/>@jwt/decisions/token-binding.md"]
+    Vendor --> Search["Scope-Filtered Search<br/>okf search --scope vendor"]
+```
+
+### 1. Cross-Scope Linking in Project Memory
+Reference decisions and invariants from installed vendor packages directly in your local `knowledge/` concepts:
+```markdown
+* Adheres to [@jwt/decisions/token-binding](@jwt/decisions/token-binding.md) for sender-constrained authentication.
+* Rules governed by [@acme/rules/decisions/auth](@acme/rules/decisions/auth.md).
+```
+`okf validate --strict` automatically recognizes all `@`-prefixed vendor links and guarantees zero broken-link false positives.
+
+### 2. Multi-Scope Search
+Search specifically across vendor memory or across all layers (`project`, `vendor`, `user`, `system`):
+```bash
+okf search "token" --scope vendor
+okf search "auth" --scope all
+```
+*Note:* Local project concepts (`knowledge/`) strictly shadow vendor concepts with identical IDs.
+
+### 3. Restoring Dependencies (`okf pull` / `okf restore`)
+Like `npm install`, running `okf pull` without arguments restores all dependencies declared in `okf.lock`:
+```bash
+# In CI or fresh clones: restores all locked vendor bundles
+okf pull
+
+# Or explicitly:
+okf restore
+```
+
+### 4. Managing Installed Bundles
+```bash
+# List all vendor packages, versions, and paths
+okf vendor list
+
+# Remove a vendor package and prune okf.lock
+okf vendor remove jwt
+```
+
+---
+
 ## Authoring an OKF Bundle
 
 To create a new bundle (for your own repo or an official RFC):

@@ -29,6 +29,7 @@ type BundleItem struct {
 	Hash        string `json:"hash"`
 	ManifestURL string `json:"manifest_url"`
 	DownloadURL string `json:"download_url"`
+	InstallCmd  string `json:"install_cmd,omitempty"`
 }
 
 type IndexManifest struct {
@@ -256,6 +257,7 @@ func main() {
 			Hash:        hash,
 			ManifestURL: manifestURL,
 			DownloadURL: downloadURL,
+			InstallCmd:  fmt.Sprintf("okf pull %s", bundleID),
 		})
 
 		fmt.Printf("✓ Packaged %-25s -> %s (%s)\n", bundleID, dlRelPath, hash[:17]+"...")
@@ -295,6 +297,15 @@ func main() {
 				if commStatus == "" {
 					commStatus = "stable"
 				}
+				commTag := c.Version
+				if commTag != "" && !strings.HasPrefix(commTag, "v") {
+					commTag = "v" + commTag
+				}
+				commInstallCmd := fmt.Sprintf("okf pull %s", c.ID)
+				if commTag != "" {
+					commInstallCmd = fmt.Sprintf("okf pull %s@%s", c.ID, commTag)
+				}
+
 				indexItems = append(indexItems, BundleItem{
 					ID:          c.ID,
 					Version:     c.Version,
@@ -306,6 +317,7 @@ func main() {
 					Title:       c.Title,
 					Description: c.Description,
 					DownloadURL: c.RepoURL,
+					InstallCmd:  commInstallCmd,
 				})
 			}
 			communityCount = len(commItems)
