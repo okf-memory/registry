@@ -30,16 +30,30 @@ document.addEventListener('DOMContentLoaded', () => {
     if (noResults) {
       noResults.style.display = visibleCount === 0 ? 'block' : 'none';
     }
+    return visibleCount;
   }
 
+  let searchDebounceTimer = null;
   if (searchInput) {
     searchInput.addEventListener('input', () => {
-      applyFilters();
+      const visibleCount = applyFilters();
       const query = searchInput.value.trim();
       const newUrl = query
         ? `${window.location.pathname}?q=${encodeURIComponent(query)}`
         : window.location.pathname;
       window.history.replaceState({}, '', newUrl);
+
+      clearTimeout(searchDebounceTimer);
+      if (query.length >= 2) {
+        searchDebounceTimer = setTimeout(() => {
+          if (typeof gtag === 'function') {
+            gtag('event', 'registry_search', {
+              'search_term': query.toLowerCase(),
+              'result_count': visibleCount
+            });
+          }
+        }, 500);
+      }
     });
   }
 
@@ -61,7 +75,14 @@ document.addEventListener('DOMContentLoaded', () => {
     filterPills.forEach((p) => {
       p.classList.toggle('active', p.getAttribute('data-filter') === 'all');
     });
-    applyFilters();
+    const visibleCount = applyFilters();
+
+    if (typeof gtag === 'function' && initialQuery.length >= 2) {
+      gtag('event', 'registry_search', {
+        'search_term': initialQuery.toLowerCase(),
+        'result_count': visibleCount
+      });
+    }
 
     // Smooth scroll and pulse highlight on first matching card
     setTimeout(() => {
@@ -86,6 +107,25 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => {
           btn.innerHTML = originalSvg;
         }, 1800);
+
+        // GA4 Tracking
+        const card = btn.closest('.bundle-card');
+        const bundleId = card?.getAttribute('data-id') || 'canonical_badge';
+        const bundleTier = card?.getAttribute('data-tier') || 'official';
+        const isBadge = text.includes('badge') || text.includes('.svg');
+
+        if (typeof gtag === 'function') {
+          if (isBadge) {
+            gtag('event', 'badge_markdown_copy', {
+              'badge_id': bundleId
+            });
+          } else {
+            gtag('event', 'bundle_install_copy', {
+              'bundle_id': bundleId,
+              'bundle_tier': bundleTier
+            });
+          }
+        }
       } catch (err) {
         console.error('Failed to copy', err);
       }
@@ -104,10 +144,126 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => {
           btn.innerHTML = originalHtml;
         }, 1800);
+
+        // GA4 Tracking
+        const card = btn.closest('.bundle-card');
+        const bundleId = card?.getAttribute('data-id') || 'badge';
+        if (typeof gtag === 'function') {
+          gtag('event', 'badge_markdown_copy', {
+            'badge_id': bundleId
+          });
+        }
       } catch (err) {
         console.error('Failed to copy badge', err);
       }
     });
   });
+
+  // GitHub Outbound Tracking
+  document.querySelectorAll('a[href*="github.com"]').forEach(link => {
+    link.addEventListener('click', () => {
+      let repo = 'registry';
+      const href = link.href || '';
+      if (href.includes('okf-agent-memory')) repo = 'okf-agent-memory';
+      else if (href.includes('topics/')) repo = 'topics/okf-memory-bundle';
+
+      let placement = 'body';
+      if (link.closest('header') || link.closest('.nav-wrap')) placement = 'nav';
+      else if (link.closest('footer')) placement = 'footer';
+      else if (link.closest('.submit-action') || link.closest('#publish-bundle')) placement = 'publish';
+
+      if (typeof gtag === 'function') {
+        gtag('event', 'github_outbound_click', {
+          'target_repo': repo,
+          'placement': placement
+        });
+      }
+    });
+  });
+
+  // ------------------------------------------------------------------------
+  // DSGVO / GDPR Cookie Consent Manager (Google Consent Mode v2)
+  // ------------------------------------------------------------------------
+  const cookieBanner = document.getElementById('cookie-banner');
+  const cookieBtnAccept = document.getElementById('cookie-btn-accept');
+  const cookieBtnReject = document.getElementById('cookie-btn-reject');
+  const cookieSettingsBtn = document.getElementById('cookie-settings-btn');
+
+  function getConsentCookie() {
+    const match = document.cookie.match(/(^|;)\s*okf_cookie_consent\s*=\s*([^;]+)/);
+    if (match) return decodeURIComponent(match[2]);
+    try { return localStorage.getItem('okf_cookie_consent'); } catch (e) {}
+    return null;
+  }
+
+  function setConsentCookie(value) {
+    const maxAge = 365 * 24 * 60 * 60; // 1 year
+    let cookieStr = `okf_cookie_consent=${encodeURIComponent(value)}; path=/; max-age=${maxAge}; SameSite=Lax`;
+    const hostname = window.location.hostname;
+    if (hostname === 'okf-memory.dev' || hostname.endsWith('.okf-memory.dev')) {
+      cookieStr += '; domain=.okf-memory.dev';
+    }
+    document.cookie = cookieStr;
+    try { localStorage.setItem('okf_cookie_consent', value); } catch (e) {}
+  }
+
+  function openCookieBanner() {
+    if (!cookieBanner) return;
+    cookieBanner.style.display = 'block';
+    requestAnimationFrame(() => {
+      cookieBanner.classList.add('show');
+    });
+  }
+
+  function closeCookieBanner() {
+    if (!cookieBanner) return;
+    cookieBanner.classList.remove('show');
+    setTimeout(() => {
+      if (!cookieBanner.classList.contains('show')) {
+        cookieBanner.style.display = 'none';
+      }
+    }, 350);
+  }
+
+  const existingConsent = getConsentCookie();
+  if (!existingConsent) {
+    setTimeout(openCookieBanner, 600);
+  }
+
+  if (cookieBtnAccept) {
+    cookieBtnAccept.addEventListener('click', () => {
+      setConsentCookie('granted');
+      if (typeof gtag === 'function') {
+        gtag('consent', 'update', {
+          'analytics_storage': 'granted'
+        });
+        gtag('event', 'page_view', {
+          page_title: document.title,
+          page_location: window.location.href
+        });
+      }
+      closeCookieBanner();
+    });
+  }
+
+  if (cookieBtnReject) {
+    cookieBtnReject.addEventListener('click', () => {
+      setConsentCookie('denied');
+      if (typeof gtag === 'function') {
+        gtag('consent', 'update', {
+          'analytics_storage': 'denied'
+        });
+      }
+      closeCookieBanner();
+    });
+  }
+
+  if (cookieSettingsBtn) {
+    cookieSettingsBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      openCookieBanner();
+    });
+  }
 });
+
 

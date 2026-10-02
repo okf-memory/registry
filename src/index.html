@@ -1,6 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- Google Consent Mode v2 & GA4 (DSGVO / GDPR Compliant) -->
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+
+    // Initialize default consent from domain cookie or storage fallback
+    var storedConsent = null;
+    try {
+      var match = document.cookie.match(/(^|;)\s*okf_cookie_consent\s*=\s*([^;]+)/);
+      if (match) {
+        storedConsent = decodeURIComponent(match[2]);
+      } else {
+        storedConsent = localStorage.getItem('okf_cookie_consent');
+      }
+    } catch (e) {}
+
+    gtag('consent', 'default', {
+      'analytics_storage': storedConsent === 'granted' ? 'granted' : 'denied',
+      'ad_storage': 'denied',
+      'ad_user_data': 'denied',
+      'ad_personalization': 'denied',
+      'wait_for_update': 500
+    });
+
+    gtag('js', new Date());
+    gtag('config', 'G-CCKX1QN84C', {
+      'anonymize_ip': true
+    });
+  </script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-CCKX1QN84C"></script>
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>OKF Memory Registry — Curated Knowledge Bundles for AI Agents</title>
@@ -193,10 +224,29 @@
   <footer class="site-footer">
     <div class="container">
       <p>
-        Powered by <a href="https://okf-memory.dev">OKF Agent Memory</a> • Open Knowledge Format v0.2 Specification • Fully static & verifiable.
+        Powered by <a href="https://okf-memory.dev">OKF Agent Memory</a> • Open Knowledge Format v0.2 Specification • Fully static & verifiable. • <button id="cookie-settings-btn" class="footer-link-btn" type="button">Cookie Settings</button>
       </p>
     </div>
   </footer>
+
+  <!-- Cookie Consent Banner (DSGVO / GDPR Compliant) -->
+  <div id="cookie-banner" class="cookie-banner" role="dialog" aria-modal="true" aria-label="Privacy & Cookie Preferences" style="display: none;">
+    <div class="cookie-banner-inner">
+      <div class="cookie-banner-text">
+        <div class="cookie-banner-header">
+          <span class="cookie-icon">🍪</span>
+          <strong>Privacy & Cookie Preferences</strong>
+        </div>
+        <p>
+          We use privacy-friendly Google Analytics 4 (anonymized IP) to understand how developers discover OKF Agent Memory. No advertising cookies are used. You can adjust or revoke your choice anytime.
+        </p>
+      </div>
+      <div class="cookie-banner-actions">
+        <button id="cookie-btn-reject" class="btn btn-cookie-secondary" type="button">Essential Only</button>
+        <button id="cookie-btn-accept" class="btn btn-cookie-primary" type="button">Accept Analytics</button>
+      </div>
+    </div>
+  </div>
 
   <script src="app.js"></script>
 </body>
