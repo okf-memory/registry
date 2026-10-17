@@ -7,6 +7,7 @@ This repository serves as the authoritative, cryptographically verifiable distri
 * **Web Catalog:** [https://registry.okf-memory.dev](https://registry.okf-memory.dev)
 * **Specification:** [Open Knowledge Format v0.2](https://okf-memory.dev/#architecture)
 * **Agent CLI:** [`okf-agent-memory`](https://github.com/okf-memory/okf-agent-memory)
+* **Roadmap:** [Project & Registry Roadmap](ROADMAP.md)
 
 ---
 
