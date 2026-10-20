@@ -104,6 +104,9 @@
                 {{else}}
                 <span class="badge-community" title="Decentralized Community Bundle">🌐 Community</span>
                 {{end}}
+                {{if .Scorecard}}
+                <span class="badge-scorecard grade-{{.Scorecard.Grade}}" title="Quality Scorecard: Grade {{.Scorecard.Grade}} ({{.Scorecard.Score}}/100) — Maintenance: {{.Scorecard.Maintenance}}%, Stewardship: {{.Scorecard.Stewardship}}%, Integrity: {{.Scorecard.Integrity}}%">Grade {{.Scorecard.Grade}} ({{.Scorecard.Score}})</span>
+                {{end}}
                 {{if .IsStale}}
                 <span class="badge-stale" title="This bundle contains unreviewed concepts past their stale_after review date">⚠️ Stale</span>
                 {{end}}

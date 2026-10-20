@@ -4,6 +4,7 @@ title: Bounded Concurrency via errgroup
 description: Requires bounding worker concurrency and unified error collection using errgroup.Group.
 generated: { by: agent/cli, at: "2026-09-30T11:43:22Z" }
 governance: constraint
+verified: { by: human/sknr, at: "2026-10-20T10:06:38Z" }
 ---
 
 # Decision: Bounded Concurrency via errgroup

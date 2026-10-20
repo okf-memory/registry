@@ -16,20 +16,31 @@ import (
 	"time"
 )
 
+type Scorecard struct {
+	Score       int      `json:"score"`
+	Grade       string   `json:"grade"`
+	Maintenance int      `json:"maintenance"`
+	Stewardship int      `json:"stewardship"`
+	Integrity   int      `json:"integrity"`
+	Signals     []string `json:"signals,omitempty"`
+	Summary     string   `json:"summary,omitempty"`
+}
+
 type BundleItem struct {
-	ID          string `json:"id"`
-	Version     string `json:"version"`
-	OKFVersion  string `json:"okf_version,omitempty"`
-	License     string `json:"license,omitempty"`
-	Status      string `json:"status"` // "stable", "draft", "deprecated" (OKF v0.2 §5.3)
-	IsStale     bool   `json:"is_stale,omitempty"`
-	Tier        string `json:"tier"` // "official" or "community"
-	Title       string `json:"title,omitempty"`
-	Description string `json:"description,omitempty"`
-	Hash        string `json:"hash"`
-	ManifestURL string `json:"manifest_url"`
-	DownloadURL string `json:"download_url"`
-	InstallCmd  string `json:"install_cmd,omitempty"`
+	ID          string     `json:"id"`
+	Version     string     `json:"version"`
+	OKFVersion  string     `json:"okf_version,omitempty"`
+	License     string     `json:"license,omitempty"`
+	Status      string     `json:"status"` // "stable", "draft", "deprecated" (OKF v0.2 §5.3)
+	IsStale     bool       `json:"is_stale,omitempty"`
+	Tier        string     `json:"tier"` // "official" or "community"
+	Title       string     `json:"title,omitempty"`
+	Description string     `json:"description,omitempty"`
+	Hash        string     `json:"hash"`
+	ManifestURL string     `json:"manifest_url"`
+	DownloadURL string     `json:"download_url"`
+	InstallCmd  string     `json:"install_cmd,omitempty"`
+	Scorecard   *Scorecard `json:"scorecard,omitempty"`
 }
 
 type IndexManifest struct {
@@ -39,14 +50,15 @@ type IndexManifest struct {
 }
 
 type BundleManifest struct {
-	ID          string `json:"id"`
-	Version     string `json:"version"`
-	OKFVersion  string `json:"okf_version,omitempty"`
-	License     string `json:"license,omitempty"`
-	Status      string `json:"status"` // "stable", "draft", "deprecated" (OKF v0.2 §5.3)
-	IsStale     bool   `json:"is_stale,omitempty"`
-	Hash        string `json:"hash"`
-	DownloadURL string `json:"download_url"`
+	ID          string     `json:"id"`
+	Version     string     `json:"version"`
+	OKFVersion  string     `json:"okf_version,omitempty"`
+	License     string     `json:"license,omitempty"`
+	Status      string     `json:"status"` // "stable", "draft", "deprecated" (OKF v0.2 §5.3)
+	IsStale     bool       `json:"is_stale,omitempty"`
+	Hash        string     `json:"hash"`
+	DownloadURL string     `json:"download_url"`
+	Scorecard   *Scorecard `json:"scorecard,omitempty"`
 }
 
 func main() {
@@ -164,15 +176,27 @@ func main() {
 			}
 		}
 
-		// Automated staleness check via okf CLI
-		if okfBin, err := exec.LookPath("okf"); err == nil {
-			cmd := exec.Command(okfBin, "validate", p, "--json")
+		// Automated validation and quality scorecard via okf CLI
+		var scorecard *Scorecard
+		var okfBin string
+		devBin := filepath.Join("..", "okf-agent-memory", "bin", "okf")
+		if _, err := os.Stat(devBin); err == nil {
+			okfBin = devBin
+		} else if p, err := exec.LookPath("okf"); err == nil {
+			okfBin = p
+		}
+		if okfBin != "" {
+			cmd := exec.Command(okfBin, "validate", p, "--scorecard", "--json")
 			if out, err := cmd.Output(); err == nil && len(out) > 0 {
 				var vRes struct {
-					StaleCount int `json:"stale_count"`
+					StaleCount int        `json:"stale_count"`
+					Scorecard  *Scorecard `json:"scorecard"`
 				}
-				if err := json.Unmarshal(out, &vRes); err == nil && vRes.StaleCount > 0 {
-					isStale = true
+				if err := json.Unmarshal(out, &vRes); err == nil {
+					if vRes.StaleCount > 0 {
+						isStale = true
+					}
+					scorecard = vRes.Scorecard
 				}
 			}
 		}
@@ -221,6 +245,7 @@ func main() {
 			IsStale:     isStale,
 			Hash:        hash,
 			DownloadURL: downloadURL,
+			Scorecard:   scorecard,
 		}
 		mBytes, _ := json.MarshalIndent(bManifest, "", "  ")
 
@@ -258,6 +283,7 @@ func main() {
 			ManifestURL: manifestURL,
 			DownloadURL: downloadURL,
 			InstallCmd:  fmt.Sprintf("okf pull %s", bundleID),
+			Scorecard:   scorecard,
 		})
 
 		fmt.Printf("✓ Packaged %-25s -> %s (%s)\n", bundleID, dlRelPath, hash[:17]+"...")

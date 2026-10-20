@@ -6,6 +6,7 @@ generated: { by: agent/cli, at: "2026-09-30T11:43:22Z" }
 status: stable
 governance: constraint
 id: "decisions/cursor-pagination"
+verified: { by: human/sknr, at: "2026-10-20T10:15:34Z" }
 ---
 
 # Keyset Cursor-Based Pagination
@@ -20,3 +21,4 @@ Public APIs and data-access layers MUST utilize keyset (cursor-based) pagination
 ## Related
 * [Zero-Downtime Schema Migrations](zero-downtime-migrations.md)
 * [Connection Pool & PgBouncer Hygiene](connection-hygiene.md)
+* [Row-Level Security & Multi-Tenant Isolation](row-level-security.md)
