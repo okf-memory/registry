@@ -3,6 +3,7 @@ type: Decision
 title: "Lifecycle & Refresh Token Rotation"
 description: Establishes short access token lifespans (5-15m) and single-use Refresh Token Rotation with automatic family revocation on replay detection.
 generated: { by: agent/cli, at: "2026-09-30T11:43:22Z" }
+verified: { by: human/sknr, at: "2026-10-20T19:37:02Z" }
 governance: constraint
 ---
 

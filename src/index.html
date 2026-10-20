@@ -55,6 +55,7 @@
       <nav>
         <ul class="nav-links">
           <li><a href="https://okf-memory.dev">Home</a></li>
+          <li><a href="scorecard.html">Scorecards</a></li>
           <li><a href="https://okf-memory.dev/#architecture">Architecture</a></li>
           <li><a href="https://okf-memory.dev/#quickstart">Docs</a></li>
           <li><a href="https://github.com/okf-memory/registry" target="_blank" rel="noopener">GitHub</a></li>
@@ -88,6 +89,9 @@
           <button class="filter-pill" data-filter="official">★ Official Core <span class="pill-count">{{.OfficialCount}}</span></button>
           <button class="filter-pill" data-filter="community">🌐 Community <span class="pill-count">{{.CommunityCount}}</span></button>
         </div>
+        <div style="margin-top: 14px; font-size: 0.85rem; color: var(--text-muted); text-align: center;">
+          <a href="scorecard.html" style="color: var(--accent-cyan); text-decoration: none; font-weight: 500;">🛡️ Learn how Quality Scorecards & Grades work →</a>
+        </div>
       </div>
     </section>
 
@@ -105,7 +109,7 @@
                 <span class="badge-community" title="Decentralized Community Bundle">🌐 Community</span>
                 {{end}}
                 {{if .Scorecard}}
-                <span class="badge-scorecard grade-{{.Scorecard.Grade}}" title="Quality Scorecard: Grade {{.Scorecard.Grade}} ({{.Scorecard.Score}}/100) — Maintenance: {{.Scorecard.Maintenance}}%, Stewardship: {{.Scorecard.Stewardship}}%, Integrity: {{.Scorecard.Integrity}}%">Grade {{.Scorecard.Grade}} ({{.Scorecard.Score}})</span>
+                <a href="scorecard.html#grades" class="badge-scorecard grade-{{.Scorecard.Grade}}" title="Quality Scorecard: Grade {{.Scorecard.Grade}} ({{.Scorecard.Score}}/100) — Maintenance: {{.Scorecard.Maintenance}}%, Stewardship: {{.Scorecard.Stewardship}}%, Integrity: {{.Scorecard.Integrity}}% • Click to view Scorecard Guide">Grade {{.Scorecard.Grade}} ({{.Scorecard.Score}})</a>
                 {{end}}
                 {{if .IsStale}}
                 <span class="badge-stale" title="This bundle contains unreviewed concepts past their stale_after review date">⚠️ Stale</span>

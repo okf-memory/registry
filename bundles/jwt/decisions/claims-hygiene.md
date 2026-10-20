@@ -3,6 +3,7 @@ type: Decision
 title: "Claims Validation & Payload Hygiene"
 description: "Enforces strict validation of standard claims (iss, aud, exp) and strictly prohibits sensitive PII or secrets in unencrypted JWT payloads."
 generated: { by: agent/cli, at: "2026-09-30T11:43:22Z" }
+verified: { by: human/sknr, at: "2026-10-20T19:34:12Z" }
 governance: constraint
 ---
 

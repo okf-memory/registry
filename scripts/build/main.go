@@ -399,6 +399,29 @@ func main() {
 		os.Exit(1)
 	}
 
+	// Render scorecard explainer UI from src/scorecard.html Go template
+	scTmpl, err := template.ParseFiles("src/scorecard.html")
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error parsing template src/scorecard.html: %v\n", err)
+		os.Exit(1)
+	}
+
+	outScHtml, err := os.Create(filepath.Join(publicDir, "scorecard.html"))
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error creating public/scorecard.html: %v\n", err)
+		os.Exit(1)
+	}
+
+	if err := scTmpl.Execute(outScHtml, templateData); err != nil {
+		_ = outScHtml.Close()
+		fmt.Fprintf(os.Stderr, "Error executing scorecard template: %v\n", err)
+		os.Exit(1)
+	}
+	if err := outScHtml.Close(); err != nil {
+		fmt.Fprintf(os.Stderr, "Error closing public/scorecard.html: %v\n", err)
+		os.Exit(1)
+	}
+
 	if css, err := os.ReadFile("src/style.css"); err == nil {
 		_ = os.WriteFile(filepath.Join(publicDir, "style.css"), css, 0o644)
 	}

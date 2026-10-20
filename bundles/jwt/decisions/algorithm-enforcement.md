@@ -3,6 +3,7 @@ type: Decision
 title: "Algorithm Enforcement & Insecure Scheme Rejection"
 description: "Mandates explicit algorithm allowlisting, asymmetric signature verification across services, and unconditional rejection of alg none."
 generated: { by: agent/cli, at: "2026-09-30T11:43:22Z" }
+verified: { by: human/sknr, at: "2026-10-20T19:33:12Z" }
 governance: constraint
 ---
 

@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Google Consent Mode v2 & GA4 (DSGVO / GDPR Compliant) -->
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+
+    var storedConsent = null;
+    try {
+      var match = document.cookie.match(/(^|;)\s*okf_cookie_consent\s*=\s*([^;]+)/);
+      if (match) {
+        storedConsent = decodeURIComponent(match[2]);
+      } else {
+        storedConsent = localStorage.getItem('okf_cookie_consent');
+      }
+    } catch (e) {}
+
+    gtag('consent', 'default', {
+      'analytics_storage': storedConsent === 'granted' ? 'granted' : 'denied',
+      'ad_storage': 'denied',
+      'ad_user_data': 'denied',
+      'ad_personalization': 'denied',
+      'wait_for_update': 500
+    });
+
+    gtag('js', new Date());
+    gtag('config', 'G-CCKX1QN84C', {
+      'anonymize_ip': true
+    });
+  </script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-CCKX1QN84C"></script>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quality Scorecard Guide — OKF Agent Memory Registry</title>
+  <meta name="description" content="OpenSSF-inspired Quality Scorecard guide for Open Knowledge Format (OKF) v0.2 bundles. Understand Epistemic Maintenance, Human Stewardship, Conformance Integrity, and CLI quality gating.">
+  <link rel="canonical" href="https://registry.okf-memory.dev/scorecard.html">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡️</text></svg>">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a href="https://okf-memory.dev" class="brand-logo">
+        <div class="logo-icon">🧠</div>
+        <span>OKF Agent Memory</span>
+      </a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="index.html">Registry</a></li>
+          <li><a href="scorecard.html" class="active-nav">Scorecards</a></li>
+          <li><a href="https://okf-memory.dev/#architecture">Architecture</a></li>
+          <li><a href="https://okf-memory.dev/#quickstart">Docs</a></li>
+          <li><a href="https://github.com/okf-memory/registry" target="_blank" rel="noopener">GitHub</a></li>
+        </ul>
+      </nav>
+      <div class="nav-actions">
+        <a href="index.html" class="btn btn-secondary">← Back to Registry</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <div class="hero-badge">
+          <span class="pulse-dot"></span>
+          <span>OpenSSF-Inspired Trust Framework • OKF v0.2</span>
+        </div>
+        <h1>Bundle Quality Scorecards</h1>
+        <p>
+          Deterministic, mathematically reproducible quality scoring (0–100) and letter grades (A–F) for agent memory bundles. Protect your AI coding agents against hallucinated patterns, broken knowledge graphs, and unmaintained legacy code.
+        </p>
+      </div>
+    </section>
+
+    <!-- 3 Pillars Section -->
+    <section class="guide-section">
+      <div class="container">
+        <div class="section-title-wrap">
+          <span class="section-tag">Evaluation Framework</span>
+          <h2>The Three Pillars of Memory Quality</h2>
+          <p class="section-subtitle">
+            Every OKF bundle is scored across three non-overlapping quality pillars computed purely offline and deterministically without external telemetries.
+          </p>
+        </div>
+
+        <div class="pillars-grid">
+          <div class="pillar-card">
+            <div class="pillar-header">
+              <span class="pillar-weight">35% Weight</span>
+              <div class="pillar-icon">⏱️</div>
+            </div>
+            <h3>Epistemic Maintenance</h3>
+            <p class="pillar-lead">Freshness horizons, active concept lifecycles, and zero-staleness guarantees.</p>
+            <div class="pillar-body">
+              <p>
+                Architectural decisions degrade when underlying frameworks change. OKF concepts define explicit review horizons via <code>stale_after: YYYY-MM-DD</code>.
+              </p>
+              <div class="pillar-calc">
+                <strong>Scoring Formula:</strong>
+                <code>100 × (1 - stale_count / concept_count)</code>
+              </div>
+              <ul class="pillar-points">
+                <li><strong>100% Score:</strong> All concepts are within their active freshness horizon or are durable invariants.</li>
+                <li><strong>Deductions:</strong> Linear degradation for every concept past its <code>stale_after</code> date.</li>
+                <li><strong>Protection:</strong> Prevents AI agents from applying obsolete API configurations or deprecated security rules.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="pillar-card highlight-purple">
+            <div class="pillar-header">
+              <span class="pillar-weight">35% Weight</span>
+              <div class="pillar-icon">🧑‍💻</div>
+            </div>
+            <h3>Human Stewardship</h3>
+            <p class="pillar-lead">Human-in-the-loop attestation and maintainer accountability.</p>
+            <div class="pillar-body">
+              <p>
+                While AI agents can generate hundreds of decisions in seconds, production safety requires human attestation. Concepts declare human review via <code>verified.by: human/&lt;handle&gt;</code>.
+              </p>
+              <div class="pillar-calc">
+                <strong>Scoring Formula:</strong>
+                <code>100 × (human_verified / concept_count)</code>
+              </div>
+              <ul class="pillar-points">
+                <li><strong>100% Score:</strong> All decisions and invariants verified or authored by designated human domain experts.</li>
+                <li><strong>Transparent Attestation:</strong> Official Core bundles are verified by maintainers (e.g. <code>human/sknr</code>).</li>
+                <li><strong>Defense:</strong> Mitigates synthetic agent-hallucination loops in autonomous workflows.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="pillar-card">
+            <div class="pillar-header">
+              <span class="pillar-weight">30% Weight</span>
+              <div class="pillar-icon">📐</div>
+            </div>
+            <h3>Conformance Integrity</h3>
+            <p class="pillar-lead">Strict OKF v0.2 DAG validation, zero broken links, and zero orphans.</p>
+            <div class="pillar-body">
+              <p>
+                Agents navigate project memory by traversing markdown links and indexes. Any broken link creates reasoning blind spots; orphaned concepts waste context windows.
+              </p>
+              <div class="pillar-calc">
+                <strong>Scoring Formula:</strong>
+                <code>max(0, 100 - (broken×50 + orphans×30))</code>
+              </div>
+              <ul class="pillar-points">
+                <li><strong>Zero Tolerance:</strong> Strict DAG validation according to OKF v0.2 §5 & §7.</li>
+                <li><strong>-50% Penalty:</strong> Applied for every broken relative markdown link.</li>
+                <li><strong>-30% Penalty:</strong> Applied for every orphaned or unindexed concept.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Grading Scale Section -->
+    <section class="guide-section bg-alt" id="grades">
+      <div class="container">
+        <div class="section-title-wrap">
+          <span class="section-tag">Grading Matrix</span>
+          <h2>Letter Grades & Autonomous Trust Levels</h2>
+          <p class="section-subtitle">
+            The composite quality score maps directly to standardized letter grades (A through F), defining safe agent automation boundaries.
+          </p>
+        </div>
+
+        <div class="grades-table-container">
+          <table class="grades-table">
+            <thead>
+              <tr>
+                <th class="th-grade">Grade</th>
+                <th class="th-score">Score</th>
+                <th class="th-tier">Trust Tier</th>
+                <th class="th-chars">Typical Characteristics</th>
+                <th class="th-policy">Recommended Agent Policy</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="grade-row row-grade-A">
+                <td class="col-grade">
+                  <span class="badge-scorecard grade-A">Grade A</span>
+                  <span class="mobile-score-pill">90 – 100</span>
+                </td>
+                <td class="col-score font-mono">90 – 100</td>
+                <td class="col-tier"><strong class="text-emerald">Enterprise & Mission-Critical</strong></td>
+                <td class="col-chars">
+                  <span class="mobile-label">Characteristics</span>
+                  100% conformant graph, zero broken links, 100% verified by human maintainers, zero stale concepts.
+                </td>
+                <td class="col-policy">
+                  <span class="mobile-label">Agent Policy</span>
+                  Safe for autonomous agent execution with write and tool permissions.
+                </td>
+              </tr>
+              <tr class="grade-row row-grade-B">
+                <td class="col-grade">
+                  <span class="badge-scorecard grade-B">Grade B</span>
+                  <span class="mobile-score-pill">80 – 89</span>
+                </td>
+                <td class="col-score font-mono">80 – 89</td>
+                <td class="col-tier"><strong class="text-cyan">Production Ready</strong></td>
+                <td class="col-chars">
+                  <span class="mobile-label">Characteristics</span>
+                  Conformant graph, majority human-verified (&gt;60%), fresh concepts, minor formatting warnings.
+                </td>
+                <td class="col-policy">
+                  <span class="mobile-label">Agent Policy</span>
+                  Standard development workflows; human approval required for live deployments.
+                </td>
+              </tr>
+              <tr class="grade-row row-grade-C">
+                <td class="col-grade">
+                  <span class="badge-scorecard grade-C">Grade C</span>
+                  <span class="mobile-score-pill">70 – 79</span>
+                </td>
+                <td class="col-score font-mono">70 – 79</td>
+                <td class="col-tier"><strong class="text-amber">Community & Experimental</strong></td>
+                <td class="col-chars">
+                  <span class="mobile-label">Characteristics</span>
+                  Valid DAG without broken links, automated AI generation with partial human oversight (20–50%).
+                </td>
+                <td class="col-policy">
+                  <span class="mobile-label">Agent Policy</span>
+                  Prototyping, exploratory tasks, and local sandbox development.
+                </td>
+              </tr>
+              <tr class="grade-row row-grade-D">
+                <td class="col-grade">
+                  <span class="badge-scorecard grade-D">Grade D</span>
+                  <span class="mobile-score-pill">60 – 69</span>
+                </td>
+                <td class="col-score font-mono">60 – 69</td>
+                <td class="col-tier"><strong class="text-orange">Caution / Needs Review</strong></td>
+                <td class="col-chars">
+                  <span class="mobile-label">Characteristics</span>
+                  Pure unverified bot output, approaching staleness horizon, or weak index connectivity.
+                </td>
+                <td class="col-policy">
+                  <span class="mobile-label">Agent Policy</span>
+                  Read-only reference; agents must request explicit user sign-off before adoption.
+                </td>
+              </tr>
+              <tr class="grade-row row-grade-F">
+                <td class="col-grade">
+                  <span class="badge-scorecard grade-F">Grade F</span>
+                  <span class="mobile-score-pill">&lt; 60</span>
+                </td>
+                <td class="col-score font-mono">&lt; 60</td>
+                <td class="col-tier"><strong class="text-rose">Failing / Untrusted</strong></td>
+                <td class="col-chars">
+                  <span class="mobile-label">Characteristics</span>
+                  Broken links, orphaned concepts, expired unmaintained rules, or schema violations.
+                </td>
+                <td class="col-policy">
+                  <span class="mobile-label">Agent Policy</span>
+                  Blocked. Quality gating strictly rejects installation.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- CLI Gating Section -->
+    <section class="guide-section">
+      <div class="container">
+        <div class="section-title-wrap">
+          <span class="section-tag">Enforcement & Automation</span>
+          <h2>Quality Gating in CLI & CI/CD Pipelines</h2>
+          <p class="section-subtitle">
+            Enforce quality policies programmatically using the zero-dependency <code>okf</code> Go toolchain.
+          </p>
+        </div>
+
+        <div class="cli-examples-grid">
+          <div class="cli-card">
+            <div class="cli-header">
+              <span class="cli-tag">Inspection</span>
+              <h4>1. Inspect Local Quality Scorecard</h4>
+            </div>
+            <p>Run full epistemic, stewardship, and conformance evaluation on your local bundle:</p>
+            <div class="install-box">
+              <span>okf validate . --scorecard</span>
+              <button class="copy-btn" data-copy="okf validate . --scorecard" title="Copy command">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="cli-card">
+            <div class="cli-header">
+              <span class="cli-tag">Gate at Pull</span>
+              <h4>2. Quality Gating During Pull</h4>
+            </div>
+            <p>Block unmaintained or unverified bundles before they touch your project memory:</p>
+            <div class="install-box">
+              <span>okf pull github.com/foo/bundle --min-score 80</span>
+              <button class="copy-btn" data-copy="okf pull github.com/foo/bundle --min-score 80" title="Copy command">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="cli-card">
+            <div class="cli-header">
+              <span class="cli-tag">Vendor Restore</span>
+              <h4>3. Verify Dependencies on Restore</h4>
+            </div>
+            <p>Guarantee all vendored bundles in <code>knowledge/vendor</code> meet organizational thresholds:</p>
+            <div class="install-box">
+              <span>okf restore --min-score 85</span>
+              <button class="copy-btn" data-copy="okf restore --min-score 85" title="Copy command">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="cli-card">
+            <div class="cli-header">
+              <span class="cli-tag">CI / CD Automation</span>
+              <h4>4. Machine-Readable CI Checks</h4>
+            </div>
+            <p>Integrate scorecard gates directly into GitHub Actions or GitLab CI runners:</p>
+            <div class="install-box">
+              <span>okf validate . --strict --stale --scorecard --json</span>
+              <button class="copy-btn" data-copy="okf validate . --strict --stale --scorecard --json" title="Copy command">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Author Checklist Section -->
+    <section class="guide-section bg-alt">
+      <div class="container">
+        <div class="section-title-wrap">
+          <span class="section-tag">Contributor Roadmap</span>
+          <h2>How Authors Reach Grade A (100)</h2>
+          <p class="section-subtitle">
+            Follow this 4-step checklist to achieve Grade A certification for your decentralized community bundle.
+          </p>
+        </div>
+
+        <div class="author-steps-grid">
+          <div class="author-step-card">
+            <span class="step-badge">Step 1</span>
+            <h4>Strict Conformance Check</h4>
+            <p>Ensure zero broken links and zero unindexed orphans:</p>
+            <code>okf validate . --strict</code>
+          </div>
+
+          <div class="author-step-card">
+            <span class="step-badge">Step 2</span>
+            <h4>Human Verification</h4>
+            <p>Review each concept and add human attestation in frontmatter:</p>
+            <code>verified: { by: human/&lt;handle&gt;, at: "ISO-DATE" }</code>
+          </div>
+
+          <div class="author-step-card">
+            <span class="step-badge">Step 3</span>
+            <h4>Freshness Discipline</h4>
+            <p>Set realistic <code>stale_after</code> dates for volatile APIs and renew them before expiry:</p>
+            <code>stale_after: "2027-10-01"</code>
+          </div>
+
+          <div class="author-step-card">
+            <span class="step-badge">Step 4</span>
+            <h4>Index & Drift Alignment</h4>
+            <p>Align bullet point listings in <code>index.md</code> with concept descriptions:</p>
+            <code>okf validate . --drift</code>
+          </div>
+        </div>
+
+        <div class="action-cta-wrap">
+          <a href="index.html" class="btn btn-primary">Explore All Bundles in Registry →</a>
+          <a href="https://github.com/okf-memory/okf-agent-memory" target="_blank" rel="noopener" class="btn btn-secondary">OKF Toolchain on GitHub ↗</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>
+        Powered by <a href="https://okf-memory.dev">OKF Agent Memory</a> • Open Knowledge Format v0.2 Specification • Fully static & verifiable. • <button id="cookie-settings-btn" class="footer-link-btn" type="button">Cookie Settings</button>
+      </p>
+    </div>
+  </footer>
+
+  <!-- Cookie Consent Banner (DSGVO / GDPR Compliant) -->
+  <div id="cookie-banner" class="cookie-banner" role="dialog" aria-modal="true" aria-label="Privacy & Cookie Preferences" style="display: none;">
+    <div class="cookie-banner-inner">
+      <div class="cookie-banner-text">
+        <div class="cookie-banner-header">
+          <span class="cookie-icon">🍪</span>
+          <strong>Privacy & Cookie Preferences</strong>
+        </div>
+        <p>
+          We use privacy-friendly Google Analytics 4 (anonymized IP) to understand how developers discover OKF Agent Memory. No advertising cookies are used. You can adjust or revoke your choice anytime.
+        </p>
+      </div>
+      <div class="cookie-banner-actions">
+        <button id="cookie-btn-reject" class="btn btn-cookie-secondary" type="button">Essential Only</button>
+        <button id="cookie-btn-accept" class="btn btn-cookie-primary" type="button">Accept Analytics</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
