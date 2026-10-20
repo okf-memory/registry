@@ -34,7 +34,7 @@ jobs:
           cache: false
 
       - name: Install OKF CLI
-        run: go install github.com/okf-memory/okf-agent-memory/cmd/okf@develop
+        run: go install github.com/okf-memory/okf-agent-memory/cmd/okf@latest
 
       - name: Crawl & Validate Community Bundles
         id: crawl
