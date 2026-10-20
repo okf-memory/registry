@@ -1,9 +1,10 @@
 ---
 okf_version: "0.2"
-bundle_version: "1.0.0"
+bundle_version: "1.1.0"
 title: "Go Concurrency Best Practices Seed Bundle"
 description: "Curated architectural patterns for leak-free, bounded Go concurrency and context lifecycle."
 license: "MIT"
+verified: { by: human/sknr, at: "2026-10-20T10:10:03Z" }
 ---
 
 # Go Concurrency Knowledge Bundle

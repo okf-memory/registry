@@ -4,6 +4,7 @@ title: "Context Lifecycle & Goroutine Leak Avoidance"
 description: Mandates explicit context passing as first parameter and deterministic termination of spawned goroutines.
 generated: { by: agent/cli, at: "2026-09-30T11:43:22Z" }
 governance: constraint
+verified: { by: human/sknr, at: "2026-10-20T10:05:13Z" }
 ---
 
 # Decision: Context Lifecycle & Goroutine Leak Avoidance

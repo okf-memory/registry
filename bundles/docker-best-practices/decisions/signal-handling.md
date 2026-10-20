@@ -6,6 +6,7 @@ generated: { by: agent/cli, at: "2026-09-30T11:43:22Z" }
 status: stable
 governance: constraint
 id: "decisions/signal-handling"
+verified: { by: human/sknr, at: "2026-10-20T09:49:56Z" }
 ---
 
 # Proper PID 1 Signal Handling & Process Reaping

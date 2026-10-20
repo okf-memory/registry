@@ -6,6 +6,7 @@ generated: { by: agent/cli, at: "2026-09-30T11:43:22Z" }
 status: stable
 governance: constraint
 id: "decisions/connection-hygiene"
+verified: { by: human/sknr, at: "2026-10-20T10:12:14Z" }
 ---
 
 # Connection Pool & PgBouncer Hygiene
@@ -21,3 +22,4 @@ Applications interacting with PostgreSQL MUST enforce strict connection bounds a
 ## Related
 * [Zero-Downtime Schema Migrations](zero-downtime-migrations.md)
 * [Keyset Cursor-Based Pagination](cursor-pagination.md)
+* [Row-Level Security & Multi-Tenant Isolation](row-level-security.md)

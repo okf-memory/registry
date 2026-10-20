@@ -6,6 +6,7 @@ generated: { by: agent/cli, at: "2026-09-30T11:43:22Z" }
 status: stable
 governance: constraint
 id: "decisions/css-first-config"
+verified: { by: human/sknr, at: "2026-10-20T09:41:07Z" }
 ---
 
 # CSS-First Theme Configuration

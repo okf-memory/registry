@@ -1,9 +1,10 @@
 ---
 okf_version: "0.2"
-bundle_version: "1.0.0"
+bundle_version: "1.1.0"
 title: "Docker Production Hardening & Best Practices"
 description: "Curated architectural decisions for minimal, unprivileged, signal-safe container images."
 license: "MIT"
+verified: { by: human/sknr, at: "2026-10-20T09:53:12Z" }
 ---
 
 # Docker Production Hardening Seed Bundle

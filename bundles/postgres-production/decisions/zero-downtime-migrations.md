@@ -6,6 +6,7 @@ generated: { by: agent/cli, at: "2026-09-30T11:43:22Z" }
 status: stable
 governance: constraint
 id: "decisions/zero-downtime-migrations"
+verified: { by: human/sknr, at: "2026-10-20T10:17:29Z" }
 ---
 
 # Zero-Downtime Schema Migrations
@@ -21,3 +22,4 @@ Database DDL operations MUST NOT hold exclusive table locks (`AccessExclusiveLoc
 ## Related
 * [Connection Pool & PgBouncer Hygiene](connection-hygiene.md)
 * [Keyset Cursor-Based Pagination](cursor-pagination.md)
+* [Row-Level Security & Multi-Tenant Isolation](row-level-security.md)
