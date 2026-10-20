@@ -8,10 +8,23 @@
     "license": "MIT",
     "status": "stable",
     "tier": "community",
-    "title": "Feline Incident Response \u0026 Autonomous Smart-Home Memory Bundle",
+    "title": "Feline Incident Response & Autonomous Smart-Home Memory Bundle",
     "description": "Canonical operational memory, architectural decisions, and emergency runbooks for managing feline-induced smart-home chaos.",
     "repo_url": "https://github.com/sknr/okf-bundle-example",
     "concept_count": 7,
-    "updated_at": "2026-09-30T20:49:01Z"
+    "updated_at": "2026-09-30T20:49:01Z",
+    "scorecard": {
+      "score": 76,
+      "grade": "C",
+      "maintenance": 100,
+      "stewardship": 31,
+      "integrity": 100,
+      "signals": [
+        "all 7 concept(s) active and current (7 durable invariants)",
+        "1/7 concept(s) verified or authored by humans",
+        "strict conformance passed: 0 broken links, 0 orphans, valid DAG"
+      ],
+      "summary": "Quality Scorecard: Grade C (Score: 76/100) \u2014 M:100% S:31% I:100%"
+    }
   }
 ]

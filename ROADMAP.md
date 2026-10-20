@@ -46,17 +46,19 @@ The scorecard evaluation engine lives canonically in the **`okf` CLI / core libr
   * Verifies zero broken links, zero orphan nodes, index navigation consistency, and strict OKF v0.2 spec conformance.
 
 #### Deliverables:
-- [ ] Implement Scorecard Engine in `okf` CLI (`pkg/okf/scorecard.go` and `okf validate --scorecard --json`).
-- [ ] CLI Gating: Support `okf pull <bundle> --min-score 80` (with optional `--min-stewardship 80`) and `okf search` quality indicators.
-- [ ] Static Scorecard Integration in `registry/scripts/build` catalog generation.
-- [ ] Manifest Scorecard integration (`/bundles/<id>.json` and `index.json` include `scorecard: { score, grade, maintenance, stewardship, integrity }`).
-- [ ] Visual Scorecard Badges & Quality breakdown on bundle pages in `registry.okf-memory.dev`.
+- [x] Implement Scorecard Engine in `okf` CLI (`pkg/okf/scorecard.go` and `okf validate --scorecard --json`).
+- [x] CLI Gating: Support `okf pull <bundle> --min-score <N>` and `okf restore --min-score <N>` with atomic rollback.
+- [x] Static Scorecard Integration in `registry/scripts/build` catalog generation.
+- [x] Manifest Scorecard integration (`/bundles/<id>.json` and `index.json` include `scorecard: { score, grade, maintenance, stewardship, integrity }`).
+- [x] Visual Scorecard Badges & Quality breakdown on bundle pages in `registry.okf-memory.dev`.
+- [ ] Community Scorecard Crawler Integration (compute & render scorecards for crawled decentralized community bundles).
 
 ---
 
 ### 2. Automated Ecosystem Crawler for Community Bundles
 
 * Automatically index GitHub repositories tagged with [`okf-memory-bundle`](https://github.com/topics/okf-memory-bundle).
+* Run automated OKF v0.2 validation and compute quality scorecards for indexed community bundles.
 * Run nightly health checks on indexed community bundles.
 * Flag unmaintained or archived GitHub repositories.
 

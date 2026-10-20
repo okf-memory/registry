@@ -300,19 +300,20 @@ func main() {
 
 	// Merge community bundles from data/community.json if available
 	type CommunityItem struct {
-		ID          string `json:"id"`
-		Owner       string `json:"owner"`
-		Repo        string `json:"repo"`
-		Version     string `json:"version"`
-		OKFVersion  string `json:"okf_version,omitempty"`
-		License     string `json:"license,omitempty"`
-		Status      string `json:"status,omitempty"`
-		IsStale     bool   `json:"is_stale,omitempty"`
-		Tier        string `json:"tier"`
-		Title       string `json:"title"`
-		Description string `json:"description"`
-		RepoURL     string `json:"repo_url"`
-		UpdatedAt   string `json:"updated_at"`
+		ID          string     `json:"id"`
+		Owner       string     `json:"owner"`
+		Repo        string     `json:"repo"`
+		Version     string     `json:"version"`
+		OKFVersion  string     `json:"okf_version,omitempty"`
+		License     string     `json:"license,omitempty"`
+		Status      string     `json:"status,omitempty"`
+		IsStale     bool       `json:"is_stale,omitempty"`
+		Tier        string     `json:"tier"`
+		Title       string     `json:"title"`
+		Description string     `json:"description"`
+		RepoURL     string     `json:"repo_url"`
+		UpdatedAt   string     `json:"updated_at"`
+		Scorecard   *Scorecard `json:"scorecard,omitempty"`
 	}
 
 	if commRaw, err := os.ReadFile(filepath.Join("data", "community.json")); err == nil {
@@ -344,6 +345,7 @@ func main() {
 					Description: c.Description,
 					DownloadURL: c.RepoURL,
 					InstallCmd:  commInstallCmd,
+					Scorecard:   c.Scorecard,
 				})
 			}
 			communityCount = len(commItems)

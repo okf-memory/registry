@@ -30,21 +30,32 @@ type GitHubRepo struct {
 	UpdatedAt     string `json:"updated_at"`
 }
 
+type Scorecard struct {
+	Score       int      `json:"score"`
+	Grade       string   `json:"grade"`
+	Maintenance int      `json:"maintenance"`
+	Stewardship int      `json:"stewardship"`
+	Integrity   int      `json:"integrity"`
+	Signals     []string `json:"signals,omitempty"`
+	Summary     string   `json:"summary,omitempty"`
+}
+
 type CommunityBundle struct {
-	ID           string `json:"id"`
-	Owner        string `json:"owner"`
-	Repo         string `json:"repo"`
-	Version      string `json:"version"`
-	OKFVersion   string `json:"okf_version,omitempty"`
-	License      string `json:"license,omitempty"`
-	Status       string `json:"status"` // "stable", "draft", "deprecated" (OKF v0.2 §5.3)
-	IsStale      bool   `json:"is_stale,omitempty"`
-	Tier         string `json:"tier"`
-	Title        string `json:"title"`
-	Description  string `json:"description"`
-	RepoURL      string `json:"repo_url"`
-	ConceptCount int    `json:"concept_count"`
-	UpdatedAt    string `json:"updated_at"`
+	ID           string     `json:"id"`
+	Owner        string     `json:"owner"`
+	Repo         string     `json:"repo"`
+	Version      string     `json:"version"`
+	OKFVersion   string     `json:"okf_version,omitempty"`
+	License      string     `json:"license,omitempty"`
+	Status       string     `json:"status"` // "stable", "draft", "deprecated" (OKF v0.2 §5.3)
+	IsStale      bool       `json:"is_stale,omitempty"`
+	Tier         string     `json:"tier"`
+	Title        string     `json:"title"`
+	Description  string     `json:"description"`
+	RepoURL      string     `json:"repo_url"`
+	ConceptCount int        `json:"concept_count"`
+	UpdatedAt    string     `json:"updated_at"`
+	Scorecard    *Scorecard `json:"scorecard,omitempty"`
 }
 
 type ETagCache struct {
@@ -52,15 +63,16 @@ type ETagCache struct {
 }
 
 type OKFValidationResult struct {
-	DeclaredVersion string   `json:"declared_version"`
-	ConceptCount    int      `json:"concept_count"`
-	Errors          []string `json:"errors"`
-	GateFindings    []string `json:"gate_findings"`
-	BrokenLinks     []any    `json:"broken_links"`
-	Orphans         []string `json:"orphans"`
-	StaleCount      int      `json:"stale_count"`
-	IsConformant    bool     `json:"is_conformant"`
-	GatePassed      bool     `json:"gate_passed"`
+	DeclaredVersion string     `json:"declared_version"`
+	ConceptCount    int        `json:"concept_count"`
+	Errors          []string   `json:"errors"`
+	GateFindings    []string   `json:"gate_findings"`
+	BrokenLinks     []any      `json:"broken_links"`
+	Orphans         []string   `json:"orphans"`
+	StaleCount      int        `json:"stale_count"`
+	IsConformant    bool       `json:"is_conformant"`
+	GatePassed      bool       `json:"gate_passed"`
+	Scorecard       *Scorecard `json:"scorecard,omitempty"`
 }
 
 func main() {
@@ -252,7 +264,7 @@ func downloadAndValidateBundle(client *http.Client, token string, repo GitHubRep
 		return nil, fmt.Errorf("no valid index.md found in repository root or standard paths")
 	}
 
-	cmd := exec.Command("okf", "validate", bundlePath, "--strict", "--stale", "--json")
+	cmd := exec.Command("okf", "validate", bundlePath, "--strict", "--stale", "--scorecard", "--json")
 	out, _ := cmd.CombinedOutput()
 
 	var valResult OKFValidationResult
@@ -315,6 +327,7 @@ func downloadAndValidateBundle(client *http.Client, token string, repo GitHubRep
 		RepoURL:      repo.HTMLURL,
 		ConceptCount: valResult.ConceptCount,
 		UpdatedAt:    repo.UpdatedAt,
+		Scorecard:    valResult.Scorecard,
 	}, nil
 }
 
