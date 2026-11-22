@@ -1,6 +1,6 @@
 ---
-okf_version: "0.2"
-bundle_version: "1.1.0"
+okf_version: "0.3"
+bundle_version: "1.2.0"
 title: "PostgreSQL Production Architecture & Invariants"
 description: "Curated architectural decisions for zero-downtime migrations, row-level security, connection pool hygiene, and scalable indexing."
 license: "MIT"

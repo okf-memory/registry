@@ -1,6 +1,6 @@
 ---
-okf_version: "0.2"
-bundle_version: "1.0.0"
+okf_version: "0.3"
+bundle_version: "1.1.0"
 title: "OAuth 2.1 & OpenID Connect Security Invariants"
 description: "Curated architectural decisions for PKCE enforcement, exact redirect URI matching, and token entropy."
 license: "MIT"

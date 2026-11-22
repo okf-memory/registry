@@ -1,6 +1,6 @@
 ---
-okf_version: "0.2"
-bundle_version: "1.0.0"
+okf_version: "0.3"
+bundle_version: "1.1.0"
 title: "Next.js 15 Seed Memory Bundle"
 description: "Curated architectural decisions, caching invariants, and security patterns for Next.js 15."
 license: "MIT"

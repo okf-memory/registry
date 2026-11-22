@@ -1,6 +1,6 @@
 ---
-okf_version: "0.2"
-bundle_version: "1.1.0"
+okf_version: "0.3"
+bundle_version: "1.2.0"
 title: "Tailwind CSS v4 Architecture & CSS-First Config"
 description: "Curated architectural decisions for Tailwind v4 CSS-first theme configuration and import discipline."
 license: "MIT"

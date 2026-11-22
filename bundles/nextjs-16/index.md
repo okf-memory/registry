@@ -1,6 +1,6 @@
 ---
-okf_version: "0.2"
-bundle_version: "1.0.0"
+okf_version: "0.3"
+bundle_version: "1.1.0"
 title: "Next.js 16 Production Architecture & Invariants"
 description: "Curated architectural decisions for async request APIs, Partial Prerendering (PPR), and Turbopack builds in Next.js 16."
 license: "MIT"

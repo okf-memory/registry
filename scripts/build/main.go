@@ -31,7 +31,7 @@ type BundleItem struct {
 	Version     string     `json:"version"`
 	OKFVersion  string     `json:"okf_version,omitempty"`
 	License     string     `json:"license,omitempty"`
-	Status      string     `json:"status"` // "stable", "draft", "deprecated" (OKF v0.2 §5.3)
+	Status      string     `json:"status"` // "stable", "draft", "deprecated" (OKF v0.3 §5.4)
 	IsStale     bool       `json:"is_stale,omitempty"`
 	Tier        string     `json:"tier"` // "official" or "community"
 	Title       string     `json:"title,omitempty"`
@@ -54,7 +54,7 @@ type BundleManifest struct {
 	Version     string     `json:"version"`
 	OKFVersion  string     `json:"okf_version,omitempty"`
 	License     string     `json:"license,omitempty"`
-	Status      string     `json:"status"` // "stable", "draft", "deprecated" (OKF v0.2 §5.3)
+	Status      string     `json:"status"` // "stable", "draft", "deprecated" (OKF v0.3 §5.4)
 	IsStale     bool       `json:"is_stale,omitempty"`
 	Hash        string     `json:"hash"`
 	DownloadURL string     `json:"download_url"`
@@ -83,8 +83,9 @@ func main() {
 		os.Exit(1)
 	}
 
-	// Copy static canonical badge
+	// Copy static canonical badge (keep v0.2.svg alias for existing README embeds)
 	if badgeSvg, err := os.ReadFile(filepath.Join("src", "badge.svg")); err == nil {
+		_ = os.WriteFile(filepath.Join(publicDir, "badge", "v0.3.svg"), badgeSvg, 0o644)
 		_ = os.WriteFile(filepath.Join(publicDir, "badge", "v0.2.svg"), badgeSvg, 0o644)
 		_ = os.WriteFile(filepath.Join(publicDir, "badge", "okf-memory-bundle.svg"), badgeSvg, 0o644)
 	}
@@ -112,7 +113,7 @@ func main() {
 		}
 		bundleID := filepath.ToSlash(rel)
 		version := "1.0.0"
-		okfVersion := "0.2"
+		okfVersion := "0.3"
 		license := "MIT"
 		status := "stable"
 		isStale := false

@@ -1,11 +1,11 @@
 # OKF Memory Registry (`registry.okf-memory.dev`)
 
-> The canonical knowledge bundle registry for Open Knowledge Format (OKF) v0.2 AI agent memory ecosystems.
+> The canonical knowledge bundle registry for Open Knowledge Format (OKF) v0.3 AI agent memory ecosystems.
 
 This repository serves as the authoritative, cryptographically verifiable distribution point for official seed bundles and community-curated knowledge packs. It provides both an interactive web catalog and a machine-readable JSON API consumed by the `okf` CLI and AI coding agents.
 
 * **Web Catalog:** [https://registry.okf-memory.dev](https://registry.okf-memory.dev)
-* **Specification:** [Open Knowledge Format v0.2](https://okf-memory.dev/#architecture)
+* **Specification:** [Open Knowledge Format v0.3](https://github.com/open-knowledge-format/open-knowledge-format/blob/main/SPEC.md)
 * **Agent CLI:** [`okf-agent-memory`](https://github.com/okf-memory/okf-agent-memory)
 * **Roadmap:** [Project & Registry Roadmap](ROADMAP.md)
 
@@ -40,7 +40,7 @@ OKF is designed to be **100% permissionless and decentralized**:
      ```bash
      okf pull github.com/<owner>/<repo>@v1.0.0
      ```
-   * The `okf` CLI automatically fetches the release tarball, verifies the strict OKF v0.2 spec, unpacks it into `.okf/vendor/`, and pins the cryptographic hash into `okf.lock`.
+   * The `okf` CLI automatically fetches the release tarball, verifies the strict OKF v0.3 spec, unpacks it into `.okf/vendor/`, and pins the cryptographic hash into `okf.lock`.
 
 2. **Official Curated Core Seeds (This Repository):**
    * Top-level single-word identifiers (e.g. `jwt`, `docker-best-practices`, `postgres-production`, `nextjs-16`) are reserved for universal industry standards curated by the core OKF team.
@@ -112,7 +112,7 @@ To create a new bundle (for your own repo or an official RFC):
 2. **Configure `index.md`:**
    ```yaml
    ---
-   okf_version: "0.2"
+   okf_version: "0.3"
    bundle_version: "1.0.0"
    title: "Kubernetes Hardening Rules"
    description: "Authoritative decisions and security invariants for production K8s clusters."
@@ -150,7 +150,7 @@ flowchart TD
    Open `bundles/<id>/index.md` and increase `bundle_version` following SemVer (`MAJOR.MINOR.PATCH`):
    ```yaml
    ---
-   okf_version: "0.2"
+   okf_version: "0.3"
    bundle_version: "1.1.0"
    title: "JWT Best Practices & Security Seed Bundle"
    ---

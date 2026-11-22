@@ -47,7 +47,7 @@ type CommunityBundle struct {
 	Version      string     `json:"version"`
 	OKFVersion   string     `json:"okf_version,omitempty"`
 	License      string     `json:"license,omitempty"`
-	Status       string     `json:"status"` // "stable", "draft", "deprecated" (OKF v0.2 §5.3)
+	Status       string     `json:"status"` // "stable", "draft", "deprecated" (OKF v0.3 §5.4)
 	IsStale      bool       `json:"is_stale,omitempty"`
 	Tier         string     `json:"tier"`
 	Title        string     `json:"title"`
@@ -114,7 +114,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	req.Header.Set("User-Agent", "okf-memory-crawler/0.2")
+	req.Header.Set("User-Agent", "okf-memory-crawler/0.3")
 	req.Header.Set("Accept", "application/vnd.github.v3+json")
 	if token != "" {
 		req.Header.Set("Authorization", "Bearer "+token)
@@ -237,7 +237,7 @@ func downloadAndValidateBundle(client *http.Client, token string, repo GitHubRep
 	if err != nil {
 		return nil, err
 	}
-	req.Header.Set("User-Agent", "okf-memory-crawler/0.2")
+	req.Header.Set("User-Agent", "okf-memory-crawler/0.3")
 	if token != "" {
 		req.Header.Set("Authorization", "Bearer "+token)
 	}
@@ -286,8 +286,8 @@ func downloadAndValidateBundle(client *http.Client, token string, repo GitHubRep
 	}()
 
 	fm, ok := parseFrontmatter(f)
-	if !ok || fm["okf_version"] != "0.2" {
-		return nil, fmt.Errorf("index.md frontmatter must declare okf_version: \"0.2\"")
+	if !ok || (fm["okf_version"] != "0.3" && fm["okf_version"] != "0.2") {
+		return nil, fmt.Errorf("index.md frontmatter must declare okf_version: \"0.3\" or \"0.2\"")
 	}
 
 	version := fm["bundle_version"]

@@ -1,6 +1,6 @@
 ---
-okf_version: "0.2"
-bundle_version: "1.0.0"
+okf_version: "0.3"
+bundle_version: "1.1.0"
 title: "Rust Production Safety & Systems Best Practices"
 description: "Authoritative architectural decisions for memory safety, zero-unsafe invariants, and structured async concurrency."
 license: "MIT"

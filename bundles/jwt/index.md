@@ -1,6 +1,6 @@
 ---
-okf_version: "0.2"
-bundle_version: "1.1.0"
+okf_version: "0.3"
+bundle_version: "1.2.0"
 title: "JWT Best Practices & Security Seed Bundle"
 description: "Curated architectural decisions, token lifecycle invariants, and security patterns for JSON Web Tokens (JWT)."
 verified: { by: human/sknr, at: "2026-10-20T19:32:35Z" }
